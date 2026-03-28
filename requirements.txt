@@ -7,7 +7,7 @@ debugpy==1.8.20
 decorator==5.2.1
 executing==2.2.1
 fonttools==4.61.1
--e git+https://github.com/charlottedavidson524/Fraud_Detection_ML.git@e7648de6d4fb2e0bac1ac1ee91b7c208b100223c#egg=Fraud_Detection_ML
+-e git+https://github.com/charlottedavidson524/Fraud_Detection_ML.git@d20045b4f509103e3939a0f9da8e1c6eda7e1349#egg=Fraud_Detection_ML
 ipykernel==7.2.0
 ipython==9.11.0
 ipython_pygments_lexers==1.1.1
@@ -43,3 +43,4 @@ tornado==6.5.5
 traitlets==5.14.3
 tzdata==2025.3
 wcwidth==0.6.0
+xgboost==3.2.0
