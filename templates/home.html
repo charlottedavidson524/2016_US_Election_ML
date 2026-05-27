@@ -1,0 +1,147 @@
+<html>
+<body>
+    <div class="login">
+        <h1>Electoral Integrity Prediction</h1>
+
+        <form action="{{ url_for('predict_datapoint') }}" method="post">
+            <h1>
+                <legend>Predict Perceptions of Electoral Integrity Index</legend>
+            </h1>
+
+            <div class="mb-3">
+                <label class="form-label">State Electoral Integrity</label>
+                <input class="form-control" type="number" name="state_electoral_integrity"
+                    placeholder="Enter score (0-100)" min="0" max="100" step="0.01" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">National Electoral Integrity</label>
+                <input class="form-control" type="number" name="national_electoral_integrity"
+                    placeholder="Enter score (0-100)" min="0" max="100" step="0.01" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Political Scale</label>
+                <input class="form-control" type="number" name="political_scale"
+                    placeholder="Enter score" min="0" max="10" step="0.01" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">The election was rigged</label>
+                <select class="form-control" name="election_rigged" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Registration deadlines were restrictive</label>
+                <select class="form-control" name="deadlines_restrictive" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Voters had to wait a long time to vote</label>
+                <select class="form-control" name="voters_waited" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Voters were intimidated at the polls</label>
+                <select class="form-control" name="voters_intimidated" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Some people voted multiple times</label>
+                <select class="form-control" name="multiple_ballots_cast" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Voting machines were accurate</label>
+                <select class="form-control" name="machines_accurate" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Electoral records were secure</label>
+                <select class="form-control" name="records_secure" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Votes were counted quickly</label>
+                <select class="form-control" name="votes_counted_quickly" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">The outcome reflected the will of the people</label>
+                <select class="form-control" name="outcome_reflected_popular_will" required>
+                    <option class="placeholder" selected disabled value="">Select a response</option>
+                    <option value="1">Strongly Disagree</option>
+                    <option value="2">Disagree</option>
+                    <option value="3">Neither Agree Nor Disagree</option>
+                    <option value="4">Agree</option>
+                    <option value="5">Strongly Agree</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Predict Electoral Integrity Score" />
+            </div>
+
+        </form>
+
+        <h2>The prediction is {{ results }}</h2>
+
+    </div>
+</body>
+</html>

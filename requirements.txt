@@ -1,4 +1,6 @@
 asttokens==3.0.1
+blinker==1.9.0
+click==8.4.1
 cloudpickle==3.1.2
 colorama==0.4.6
 comm==0.2.3
@@ -8,19 +10,23 @@ debugpy==1.8.20
 decorator==5.2.1
 dill==0.4.1
 executing==2.2.1
+Flask==3.1.3
 fonttools==4.61.1
--e git+https://github.com/charlottedavidson524/Fraud_Detection_ML.git@9703f41bba479388ee87dadfa329788525e66ae7#egg=Fraud_Detection_ML
+-e git+https://github.com/charlottedavidson524/Fraud_Detection_ML.git@9bb26f7114c0192ae0b985683910eba02ed3c2c8#egg=Fraud_Detection_ML
 imbalanced-learn==0.14.1
 imblearn==0.0
 ipykernel==7.2.0
 ipython==9.11.0
 ipython_pygments_lexers==1.1.1
+itsdangerous==2.2.0
 jedi==0.19.2
+Jinja2==3.1.6
 joblib==1.5.3
 jupyter_client==8.8.0
 jupyter_core==5.9.1
 kiwisolver==1.4.9
 llvmlite==0.47.0
+MarkupSafe==3.0.3
 matplotlib==3.10.8
 matplotlib-inline==0.2.1
 nest-asyncio==1.6.0
@@ -54,4 +60,5 @@ traitlets==5.14.3
 typing_extensions==4.15.0
 tzdata==2025.3
 wcwidth==0.6.0
+Werkzeug==3.1.8
 xgboost==3.2.0

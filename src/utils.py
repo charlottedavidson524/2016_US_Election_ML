@@ -8,7 +8,21 @@ from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 from src.logger import logging
 
+def load_object(file_path):
+    """
+    Load pickle objects (stored in artifacts folder)
+    """
+    try:
+        with open(file_path, "rb") as file_obj:
+            return dill.load(file_obj)
+        
+    except Exception as e:
+        raise CustomException(e, sys)
+
 def save_object(file_path, obj):
+    """
+    Save an object
+    """
     try:
         dir_path = os.path.dirname(file_path)
 
@@ -22,6 +36,9 @@ def save_object(file_path, obj):
     
 
 def evaluate_model(X_train, y_train, X_test, y_test, models, param):
+    """
+    Evaluate the model
+    """
     try:
         report = {}
 
@@ -35,7 +52,6 @@ def evaluate_model(X_train, y_train, X_test, y_test, models, param):
             gs.fit(X_train, y_train)
             logging.info(f"{model_name} best params: {gs.best_params_}")
             logging.info(f"{model_name} best CV R²: {gs.best_score_:.4f}")
-            #best_model = gs.best_estimator_
 
             model.set_params(**gs.best_params_)
             model.fit(X_train, y_train)
