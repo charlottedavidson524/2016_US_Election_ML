@@ -38,7 +38,25 @@ class ModelTrainer:
                 "XGBRegressor": XGBRegressor(random_state=42),
             }
 
-            model_report:dict=evaluate_model(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models)
+            params = {
+                "Linear Regression": {},
+                "Ridge": {"alpha": [0.01, 0.1, 1, 10, 100, 1000]},
+                "Lasso": {"alpha": [0.001, 0.01, 0.1, 1, 10, 100]},
+                "ElasticNet": {"alpha": [0.001, 0.01, 0.1, 1, 10], "l1_ratio": [0.1, 0.3, 0.5, 0.7, 0.9]},
+                "Random Forest": {
+                    "n_estimators": [100, 200, 300],
+                    "max_depth": [None, 5, 10, 15],
+                    "min_samples_split": [2, 5, 10]
+                },
+                "XGBRegressor": {
+                    "n_estimators": [100, 200, 300],
+                    "max_depth": [3, 5, 7],
+                    "learning_rate": [0.01, 0.05, 0.1],
+                    "subsample": [0.8, 1.0]
+                },
+            }
+
+            model_report:dict=evaluate_model(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, param=params)
 
             # Get best model score from the dictionary 
             best_model_score = max(sorted(model_report.values()))
