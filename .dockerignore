@@ -1,0 +1,11 @@
+venv/
+.git/
+.gitignore
+notebook/
+logs/
+*.pyc
+__pycache__/
+*.egg-info/
+Fraud_Detection_ML.egg-info/
+*.ipynb
+.env
