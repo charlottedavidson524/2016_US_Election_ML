@@ -16,7 +16,7 @@ def index():
 @app.route('/predictdata', methods=['GET', 'POST'])
 def predict_datapoint():
     if request.method == 'GET':
-        return render_template('home.html')
+        return render_template('home.html', results=None, form_data={})
     else:
         data = CustomData(
             state_electoral_integrity=float(request.form.get('state_electoral_integrity')),
@@ -37,9 +37,11 @@ def predict_datapoint():
         predict_pipeline = PredictPipeline()
         results = predict_pipeline.predict(pred_df)
 
-        return render_template('home.html', results=results[0])
+        return render_template('home.html', results=results[0], form_data=request.form)
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")
 
 # Go to http://127.0.0.1:5000/predictdata
+
+# Add server side validation

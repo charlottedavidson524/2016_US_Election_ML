@@ -1,1 +1,68 @@
-<h1>Home page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electoral Integrity Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Electoral Integrity Predictor</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container text-center py-3">
+            <h1 class="display-4 fw-bold mb-3">Perceptions of Electoral Integrity</h1>
+            <p class="lead text-muted mb-4 mx-auto" style="max-width: 600px;">
+                Enter your survey responses to predict the Electoral Integrity Index —
+                a composite score built on real voter survey data.
+            </p>
+            <a href="/predictdata" class="btn btn-primary btn-lg px-5 py-3">Start Prediction</a>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">📊</div>
+                            <h5 class="card-title">Survey-Driven</h5>
+                            <p class="card-text text-muted">Based on real voter perception data covering election experiences nationwide.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">🤖</div>
+                            <h5 class="card-title">ML-Powered</h5>
+                            <p class="card-text text-muted">Multiple regression models with hyperparameter tuning select the best predictor automatically.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">🔍</div>
+                            <h5 class="card-title">Transparent</h5>
+                            <p class="card-text text-muted">12 interpretable features drawn directly from electoral process assessments and voter experiences.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-3 text-center small bg-white border-top">
+        Electoral Integrity Predictor · Powered by scikit-learn &amp; Flask
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

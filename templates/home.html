@@ -1,147 +1,225 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict – Electoral Integrity Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
-    <div class="login">
-        <h1>Electoral Integrity Prediction</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Electoral Integrity Predictor</a>
+        </div>
+    </nav>
 
-        <form action="{{ url_for('predict_datapoint') }}" method="post">
-            <h1>
-                <legend>Predict Perceptions of Electoral Integrity Index</legend>
-            </h1>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
 
-            <div class="mb-3">
-                <label class="form-label">State Electoral Integrity</label>
-                <input class="form-control" type="number" name="state_electoral_integrity"
-                    placeholder="Enter score (0-100)" min="0" max="100" step="0.01" required />
+                {% if results is not none %}
+                <div class="result-card card mb-4 border-0 shadow" id="result-card">
+                    <div class="card-body text-center py-4">
+                        <p class="text-muted mb-1">Predicted Electoral Integrity Index</p>
+                        <div class="result-score fw-bold" id="result-value">{{ "%.2f" % results }}</div>
+                        <p class="result-label mt-2 mb-0 fw-semibold" id="result-label"></p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="card border-0 shadow">
+                    <div class="card-header py-3 text-white" style="background-color: var(--primary);">
+                        <h4 class="mb-0">Prediction Form</h4>
+                        <small class="opacity-75">Complete all fields to generate your prediction</small>
+                    </div>
+                    <div class="card-body p-4">
+                        <form action="{{ url_for('predict_datapoint') }}" method="post" id="prediction-form">
+
+                            <h6 class="section-title text-uppercase text-muted mb-3">Electoral Assessment Scores</h6>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">State Electoral Integrity</label>
+                                    <input class="form-control" type="number" name="state_electoral_integrity"
+                                        placeholder="1 – 10" min="0" max="100" step="0.01" required 
+                                        value="{{ form_data.get('state_electoral_integrity', '') }}" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">National Electoral Integrity</label>
+                                    <input class="form-control" type="number" name="national_electoral_integrity"
+                                        placeholder="1 – 10" min="0" max="100" step="0.01" required
+                                        value="{{ form_data.get('national_electoral_integrity', '') }}" /> 
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Political Scale</label>
+                                    <input class="form-control" type="number" name="political_scale"
+                                        placeholder="1 – 10" min="0" max="10" step="0.01" required 
+                                        value="{{ form_data.get('political_scale', '') }}" />
+                                </div>
+                            </div>
+
+                            <h6 class="section-title text-uppercase text-muted mb-3">Survey Responses</h6>
+                            <p class="text-muted small mb-3">Rate how strongly you agree or disagree with each statement.</p>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">The election was rigged</label>
+                                    <select class="form-select" name="election_rigged" required>
+                                        <option disabled value="" {% if not form_data.get('election_rigged') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('election_rigged') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('election_rigged') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('election_rigged') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('election_rigged') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('election_rigged') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Registration deadlines were restrictive</label>
+                                    <select class="form-select" name="deadlines_restrictive" required>
+                                        <option disabled value="" {% if not form_data.get('deadlines_restrictive') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('deadlines_restrictive') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('deadlines_restrictive') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('deadlines_restrictive') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('deadlines_restrictive') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('deadlines_restrictive') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Voters had to wait a long time</label>
+                                    <select class="form-select" name="voters_waited" required>
+                                        <option disabled value="" {% if not form_data.get('voters_waited') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('voters_waited') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('voters_waited') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('voters_waited') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('voters_waited') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('voters_waited') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Voters were intimidated at the polls</label>
+                                    <select class="form-select" name="voters_intimidated" required>
+                                        <option disabled value="" {% if not form_data.get('voters_intimidated') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('voters_intimidated') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('voters_intimidated') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('voters_intimidated') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('voters_intimidated') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('voters_intimidated') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Some people voted multiple times</label>
+                                    <select class="form-select" name="multiple_ballots_cast" required>
+                                        <option disabled value="" {% if not form_data.get('multiple_ballots_cast') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('multiple_ballots_cast') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('multiple_ballots_cast') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('multiple_ballots_cast') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('multiple_ballots_cast') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('multiple_ballots_cast') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Voting machines were accurate</label>
+                                    <select class="form-select" name="machines_accurate" required>
+                                        <option disabled value="" {% if not form_data.get('machines_accurate') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('machines_accurate') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('machines_accurate') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('machines_accurate') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('machines_accurate') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('machines_accurate') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Electoral records were secure</label>
+                                    <select class="form-select" name="records_secure" required>
+                                        <option disabled value="" {% if not form_data.get('records_secure') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('records_secure') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('records_secure') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('records_secure') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('records_secure') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('records_secure') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Votes were counted quickly</label>
+                                    <select class="form-select" name="votes_counted_quickly" required>
+                                        <option disabled value="" {% if not form_data.get('votes_counted_quickly') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('votes_counted_quickly') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('votes_counted_quickly') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('votes_counted_quickly') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('votes_counted_quickly') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('votes_counted_quickly') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">The outcome reflected the will of the people</label>
+                                    <select class="form-select" name="outcome_reflected_popular_will" required>
+                                        <option disabled value="" {% if not form_data.get('outcome_reflected_popular_will') %}selected{% endif %}>Select a response</option>
+                                        <option value="1" {% if form_data.get('outcome_reflected_popular_will') == '1' %}selected{% endif %}>Strongly Disagree</option>
+                                        <option value="2" {% if form_data.get('outcome_reflected_popular_will') == '2' %}selected{% endif %}>Disagree</option>
+                                        <option value="3" {% if form_data.get('outcome_reflected_popular_will') == '3' %}selected{% endif %}>Neither Agree Nor Disagree</option>
+                                        <option value="4" {% if form_data.get('outcome_reflected_popular_will') == '4' %}selected{% endif %}>Agree</option>
+                                        <option value="5" {% if form_data.get('outcome_reflected_popular_will') == '5' %}selected{% endif %}>Strongly Agree</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg flex-grow-1" id="submit-btn">
+                                <span id="btn-text">Predict Electoral Integrity Score</span>
+                                <span id="btn-spinner" class="spinner-border spinner-border-sm ms-2 d-none"
+                                    role="status" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-lg" id="refresh-btn" title="Clear form">
+                                &#8635; Refresh
+                            </button>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">National Electoral Integrity</label>
-                <input class="form-control" type="number" name="national_electoral_integrity"
-                    placeholder="Enter score (0-100)" min="0" max="100" step="0.01" required />
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Political Scale</label>
-                <input class="form-control" type="number" name="political_scale"
-                    placeholder="Enter score" min="0" max="10" step="0.01" required />
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">The election was rigged</label>
-                <select class="form-control" name="election_rigged" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Registration deadlines were restrictive</label>
-                <select class="form-control" name="deadlines_restrictive" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Voters had to wait a long time to vote</label>
-                <select class="form-control" name="voters_waited" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Voters were intimidated at the polls</label>
-                <select class="form-control" name="voters_intimidated" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Some people voted multiple times</label>
-                <select class="form-control" name="multiple_ballots_cast" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Voting machines were accurate</label>
-                <select class="form-control" name="machines_accurate" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Electoral records were secure</label>
-                <select class="form-control" name="records_secure" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Votes were counted quickly</label>
-                <select class="form-control" name="votes_counted_quickly" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">The outcome reflected the will of the people</label>
-                <select class="form-control" name="outcome_reflected_popular_will" required>
-                    <option class="placeholder" selected disabled value="">Select a response</option>
-                    <option value="1">Strongly Disagree</option>
-                    <option value="2">Disagree</option>
-                    <option value="3">Neither Agree Nor Disagree</option>
-                    <option value="4">Agree</option>
-                    <option value="5">Strongly Agree</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Predict Electoral Integrity Score" />
-            </div>
-
-        </form>
-
-        <h2>The prediction is {{ results }}</h2>
-
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Loading state on submit
+        document.getElementById('prediction-form').addEventListener('submit', function () {
+            const btn = document.getElementById('submit-btn');
+            document.getElementById('btn-text').textContent = 'Predicting…';
+            document.getElementById('btn-spinner').classList.remove('d-none');
+            btn.disabled = true;
+        });
+
+        // Colour-code and label the result
+        const resultCard = document.getElementById('result-card');
+        if (resultCard) {
+            const score = parseFloat(document.getElementById('result-value').textContent);
+            const label = document.getElementById('result-label');
+            if (score >= 70) {
+                resultCard.classList.add('result-high');
+                label.textContent = 'High perceived electoral integrity';
+            } else if (score >= 40) {
+                resultCard.classList.add('result-medium');
+                label.textContent = 'Moderate perceived electoral integrity';
+            } else {
+                resultCard.classList.add('result-low');
+                label.textContent = 'Low perceived electoral integrity';
+            }
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        document.getElementById('refresh-btn').addEventListener('click', function () {
+            document.querySelectorAll('#prediction-form input[type="number"]').forEach(function(input) {
+                input.value = '';
+            });
+            document.querySelectorAll('#prediction-form select').forEach(function(select) {
+                select.selectedIndex = 0;
+            });
+            const resultCard = document.getElementById('result-card');
+            if (resultCard) resultCard.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
+
