@@ -13,28 +13,6 @@ A regression model was trained on survey data capturing voter perceptions of ele
 - Containerisation: Docker
 - Deployment: AWS
 
-## Project Structure
-
-├── app.py # Flask app entry point
-├── src/
-│ ├── components/
-│ │ ├── data_ingestion.py # Loads and splits raw data
-│ │ ├── data_transformation.py # Likert encoding and scaling
-│ │ └── model_trainer.py # Trains and selects best model
-│ ├── pipeline/
-│ │ ├── train_pipeline.py # Orchestrates training
-│ │ └── predict_pipeline.py # Handles inference requests
-│ ├── exception.py
-│ ├── logger.py
-│ └── utils.py
-├── templates/ # HTML templates
-├── static/ # CSS
-├── artifacts/ # Generated model files
-├── notebook/ # Exploratory notebooks
-├── Dockerfile
-├── requirements.txt # Development dependencies
-└── requirements-prod.txt # Production dependencies
-
 ## ML Pipeline
 
 1. Data ingesion: reads survey CSV and splits into train/test sets
