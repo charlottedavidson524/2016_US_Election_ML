@@ -23,7 +23,7 @@ A regression model was trained on survey data capturing voter perceptions of ele
 
 #### Live Application
 
-Coming soon :D
+Visit [http://Electoral-integrity-env.eba-ei3mnaji.us-east-1.elasticbeanstalk.com]
 
 #### Run Locally (Python)
 
